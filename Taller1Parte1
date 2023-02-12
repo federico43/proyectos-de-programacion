@@ -1,0 +1,47 @@
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+struct Clientes {
+
+  string Nombre;
+
+  long cc;
+};
+
+int main() {
+
+  vector<Clientes> cliente;
+  vector<Clientes>::iterator p;
+  cout << "Cuantos clientes quiere registrar?" << endl;
+  int num;
+  cin >> num;
+  cliente.resize(num);
+  int numCliente = 1;
+  for (p = cliente.begin(); p != cliente.end(); p++) {
+    cout << "cliente #" << numCliente << endl;
+    cout << "nombre:";
+    cin >> p->Nombre;
+    cout << "cedula: ";
+    cin >> p->cc;
+    cout << endl;
+    ++numCliente;
+  }
+  ofstream file;
+  file.open("DataBase.csv");
+  numCliente = 1;
+  file << "numCliente"
+       << ","
+       << "Nombre"
+       << ","
+       << "Cedula" << endl;
+  for (p = cliente.begin(); p != cliente.end(); p++) {
+    file << numCliente << "," << p->Nombre << "," << p->cc << endl;
+    file.flush();
+    ++numCliente;
+  }
+  file.close();
+  return 0;
+}
