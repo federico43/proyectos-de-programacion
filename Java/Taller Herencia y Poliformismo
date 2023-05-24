@@ -1,0 +1,118 @@
+import java.util.ArrayList;
+
+// Clase abstracta base para los productos electrónicos
+abstract class ProductoElectronico {
+    private String nombre;
+    private double precio;
+    private int garantia;
+
+    public ProductoElectronico(String nombre, double precio, int garantia) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.garantia = garantia;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public int getGarantia() {
+        return garantia;
+    }
+
+    // Método abstracto para cargar el producto
+    public abstract void cargar(int cargaInicial);
+}
+
+// Clase para representar un celular, que es un tipo de ProductoElectronico
+class Celular extends ProductoElectronico {
+    private String modelo;
+
+    public Celular(String nombre, double precio, int garantia, String modelo) {
+        super(nombre, precio, garantia);
+        this.modelo = modelo;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    // Implementación del método abstracto cargar() para el celular
+    public void cargar(int cargaInicial) {
+        System.out.println("Cargando el celular " + getModelo() + " con una carga inicial de " + cargaInicial + " horas.");
+    }
+
+    // Método específico de los celulares para enviar mensajes
+    public void enviarMensaje(String mensaje) {
+        System.out.println("Enviando mensaje desde el celular " + getModelo() + ": " + mensaje);
+    }
+}
+
+// Clase para representar una computadora, que es un tipo de ProductoElectronico
+class Computadora extends ProductoElectronico {
+    private String marca;
+
+    public Computadora(String nombre, double precio, int garantia, String marca) {
+        super(nombre, precio, garantia);
+        this.marca = marca;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    // Implementación del método abstracto cargar() para la computadora
+    public void cargar(int cargaInicial) {
+        System.out.println("Cargando la computadora " + getMarca() + " con una carga inicial de " + cargaInicial + " horas.");
+    }
+
+    // Método específico de las computadoras para ejecutar programas
+    public void ejecutarPrograma(String programa) {
+        System.out.println("Ejecutando el programa " + programa + " en la computadora " + getMarca());
+    }
+}
+
+// Clase principal que contiene el método main
+public class Main {
+    public static void main(String[] args) {
+        // Crear un ArrayList de tipo ProductoElectronico
+        ArrayList<ProductoElectronico> productos = new ArrayList<>();
+
+        // Crear objetos de tipo Celular y Computadora y agregarlos al ArrayList
+        Celular celular1 = new Celular("iPhone", 1000.0, 12, "X");
+        Celular celular2 = new Celular("Samsung", 800.0, 12, "Galaxy S10");
+        productos.add(celular1);
+        productos.add(celular2);
+
+        Computadora computadora1 = new Computadora("HP", 1200.0, 24, "Pavilion");
+        Computadora computadora2 = new Computadora("Dell", 1500.0, 24, "Inspiron");
+        productos.add(computadora1);
+        productos.add(computadora2);
+
+        // Recorrer la lista de productos y mostrar su información y comportamiento específico
+        for (ProductoElectronico producto : productos) {
+            System.out.println("Nombre: " + producto.getNombre());
+            System.out.println("Precio: " + producto.getPrecio());
+            System.out.println("Garantía: " + producto.getGarantia());
+
+            // Llamar al método cargar() específico de cada objeto
+            producto.cargar(2);
+            System.out.println("------------------------");
+
+            // Verificar el tipo de objeto y llamar a los métodos específicos correspondientes
+            if (producto instanceof Celular) {
+                Celular celular = (Celular) producto;
+                celular.enviarMensaje("Hola, ¿cómo estás?");
+            } else if (producto instanceof Computadora) {
+                Computadora computadora = (Computadora) producto;
+                computadora.ejecutarPrograma("Microsoft Word");
+            }
+
+            System.out.println("========================");
+        }
+    }
+}
