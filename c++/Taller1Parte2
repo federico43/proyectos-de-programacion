@@ -1,0 +1,53 @@
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+//---> Se crea una estructura "Clientes" para guardar la informacion de manera estrucutrada de los clientes. 
+struct Clientes {
+
+  string Nombre;
+
+  long cc;
+};
+
+int main() {
+
+  
+  //Se crea un vector de tipo "Clientes", un iterador p para poder recorrer a "Clientes", una variable 'num' que guardara el largo de "Clientes", una variable de tipo int "numClientes" para contar el numero de cliente que se esta registrando.
+  vector<Clientes>::iterator p;
+  vector<Clientes> cliente;
+  int num;
+  int numCliente = 1;
+  //Se le pregunta al usuario cuantos clientes quiere registrar, se guarda la respuesta en "num" y se usa la funcion resize() para que el tamaño de "CLiente" = "num"
+  cout << "Cuantos clientes quiere registrar?" << endl;
+  cin >> num;
+  cliente.resize(num);
+  //Usando el iterador P se pasa por el vector guardando la informacion que se le pide al cliente
+  for (p = cliente.begin(); p != cliente.end(); p++) {
+    cout << "cliente #" << numCliente << endl;
+    cout << "nombre:";
+    cin >> p->Nombre;
+    cout << "cedula: ";
+    cin >> p->cc;
+    cout << endl;
+    ++numCliente;
+  }
+  //se Crea una variable de tipo ofstream llamada "file", con fopen se crea Database.csv, se guarda en este archivo los datos de los clientes
+  ofstream file;
+  file.open("DataBase.csv");
+  numCliente = 1;
+  file << "numCliente"
+       << ","
+       << "Nombre"
+       << ","
+       << "Cedula" << endl;
+  for (p = cliente.begin(); p != cliente.end(); p++) {
+    file << numCliente << "," << p->Nombre << "," << p->cc << endl;
+    file.flush();
+    ++numCliente;
+  }
+  //se cierra el arhivo
+  file.close();
+  return 0;
+}
